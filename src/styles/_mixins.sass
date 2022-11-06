@@ -1,0 +1,8 @@
+@use 'sass:map'
+
+
+@mixin rwd-gt($name)
+  @if not map.has-key($breakpoints, $name)
+    @error "#{$name} is not a known breakpoint."
+  @media screen and (max-width: map.get($breakpoints, $name)+1)
+    @content
