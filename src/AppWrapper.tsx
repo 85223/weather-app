@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 import { BrowserRouter } from "react-router-dom";
 import CustomRoutes from "./Routes";
-import CreateWeatherProvider from "./Context/Weather";
+import WeatherProvider from "./Context/Weather";
 
 const AppWrapper = () => {
   return (
@@ -10,9 +10,9 @@ const AppWrapper = () => {
         <title>Weather APP</title>
         <meta name="description" content="Weather APP" />
       </Helmet>
-      <CreateWeatherProvider>
+      <WeatherProvider>
         <CustomRoutes />
-      </CreateWeatherProvider>
+      </WeatherProvider>
     </BrowserRouter>
   );
 };

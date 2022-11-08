@@ -3,10 +3,12 @@ import React, {
   Context,
   createContext,
   FC,
+  ReactNode,
   useContext,
   useEffect,
   useState,
 } from "react";
+import { getWeatherData } from "../../api";
 
 export interface Response<T> {
   error?: AxiosError<{
@@ -15,154 +17,140 @@ export interface Response<T> {
   data?: T;
 }
 
-export interface weatherDataType {
-  records: {
-    datasetDescription: string;
-    location: [
-      {
-        locationName: string;
-        weatherElement: [
-          {
-            elementName: "Wx";
-            time: [
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterValue: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterValue: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterValue: string };
-              }
-            ];
-          },
-          {
-            elementName: "Pop";
-            time: [
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              }
-            ];
-          },
-          {
-            elementName: "Min";
-            time: [
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              }
-            ];
-          },
-          {
-            elementName: "CI";
-            time: [
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string };
-              }
-            ];
-          },
-          {
-            elementName: "Max";
-            time: [
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              },
-              {
-                startTime: string;
-                endTime: string;
-                parameter: { parameterName: string; parameterUnit: string };
-              }
-            ];
-          }
-        ];
-      }
-    ];
-  };
-}
-
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const getWeather = async (): Promise<Response<weatherDataType>> => {
-  try {
-    const data = await axios.get<weatherDataType>(
-      "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-1698A141-1DE8-4E52-8DEA-49C0C11B3611&format=JSON&locationName="
-    );
+interface weatherDataType {
+  datasetDescription: string;
+  location: [
+    {
+      locationName: string;
+      weatherElement: [
+        {
+          elementName: "Wx";
+          time: [
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterValue: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterValue: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterValue: string };
+            }
+          ];
+        },
+        {
+          elementName: "Pop";
+          time: [
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            }
+          ];
+        },
+        {
+          elementName: "Min";
+          time: [
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            }
+          ];
+        },
+        {
+          elementName: "CI";
+          time: [
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string };
+            }
+          ];
+        },
+        {
+          elementName: "Max";
+          time: [
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            },
+            {
+              startTime: string;
+              endTime: string;
+              parameter: { parameterName: string; parameterUnit: string };
+            }
+          ];
+        }
+      ];
+    }
+  ];
+}
 
-    return data;
-  } catch (error: any) {
-    console.log("error", error);
-    return { error, data: undefined };
-  }
-};
-
-export const weatherContext = createContext<weatherDataType | undefined>(
+export const weatherContext = createContext<weatherDataType | undefined | null>(
   undefined
 );
 
-const CreateWeatherProvider = ({ children }: Props) => {
-  const [weatherData, setWeatherData] = useState<weatherDataType>();
+const WeatherProvider = ({ children }: Props) => {
+  const [weatherData, setWeatherData] = useState<weatherDataType | null>();
 
   const GetWeatherData = async () => {
     try {
-      const { data } = await getWeather();
+      const { data } = await getWeatherData();
       if (data) {
+        console.log(data.records);
         const { records } = data;
-        const { location, datasetDescription } = records;
+        setWeatherData(records);
       }
-      setWeatherData(data);
       return data;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      return { error, data: undefined };
     }
   };
 
@@ -172,16 +160,9 @@ const CreateWeatherProvider = ({ children }: Props) => {
 
   return (
     <weatherContext.Provider value={weatherData}>
-      <div style={{ color: "#fafafa" }}>{children}</div>
+      {children}
     </weatherContext.Provider>
   );
 };
 
-export const createWeatherContext = () => {
-  return {
-    weatherProvider: CreateWeatherProvider,
-    useWeather: () => useContext(weatherContext),
-  };
-};
-
-export default CreateWeatherProvider;
+export default WeatherProvider;
