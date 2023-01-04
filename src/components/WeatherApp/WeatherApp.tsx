@@ -32,7 +32,7 @@ const WeatherApp = () => {
 
   return (
     <Row justify="center" align="middle">
-      <Col span={20} sm={10} xs={15} className={classes.container}>
+      <Col span={20} sm={15} md={10} className={classes.container}>
         <h1 className={classes.title}>台北市</h1>
         <h3 className={classes.description}>多雲時晴</h3>
         <div className={classes.weatherCard}>
