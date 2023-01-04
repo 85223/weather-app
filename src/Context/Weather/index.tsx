@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import { getWeatherData } from "../../api";
+import { IWeatherData } from "../../interface";
 
 export interface Response<T> {
   error?: AxiosError<{
@@ -21,123 +22,12 @@ interface Props {
   children: ReactNode;
 }
 
-interface weatherDataType {
-  datasetDescription: string;
-  location: [
-    {
-      locationName: string;
-      weatherElement: [
-        {
-          elementName: "Wx";
-          time: [
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterValue: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterValue: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterValue: string };
-            }
-          ];
-        },
-        {
-          elementName: "Pop";
-          time: [
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            }
-          ];
-        },
-        {
-          elementName: "Min";
-          time: [
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            }
-          ];
-        },
-        {
-          elementName: "CI";
-          time: [
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string };
-            }
-          ];
-        },
-        {
-          elementName: "Max";
-          time: [
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            },
-            {
-              startTime: string;
-              endTime: string;
-              parameter: { parameterName: string; parameterUnit: string };
-            }
-          ];
-        }
-      ];
-    }
-  ];
-}
-
-export const weatherContext = createContext<weatherDataType | undefined | null>(
+export const weatherContext = createContext<IWeatherData | undefined>(
   undefined
 );
 
 const WeatherProvider = ({ children }: Props) => {
-  const [weatherData, setWeatherData] = useState<weatherDataType | null>();
+  const [weatherData, setWeatherData] = useState<IWeatherData>();
 
   const GetWeatherData = async () => {
     try {
@@ -145,7 +35,9 @@ const WeatherProvider = ({ children }: Props) => {
       if (data) {
         console.log(data.records);
         const { records } = data;
-        setWeatherData(records);
+        console.log(records);
+
+        setWeatherData(data);
       }
       return data;
     } catch (error: any) {
