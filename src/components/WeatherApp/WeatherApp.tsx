@@ -6,6 +6,7 @@ import { IWeatherData, ICurrentWeatherData } from "../../interface";
 import dayIcon from "../../images/weather_fog_mist_day_cloud_sun_coudy.svg";
 import rainIcon from "../../images/rain.svg";
 import windIcon from "../../images/wind.svg";
+import reloadIcon from "../../images/reload.svg";
 
 const WeatherApp = () => {
   const { Option } = Select;
@@ -31,7 +32,7 @@ const WeatherApp = () => {
 
   return (
     <Row justify="center" align="middle">
-      <Col span={20} className={classes.container}>
+      <Col span={20} sm={10} xs={15} className={classes.container}>
         <h1 className={classes.title}>台北市</h1>
         <h3 className={classes.description}>多雲時晴</h3>
         <div className={classes.weatherCard}>
@@ -56,24 +57,9 @@ const WeatherApp = () => {
             </div>
             <div className={classes.content}>48 %</div>
           </div>
-
-          {/* <p
-          </div>
-            className={classes.content}
-          >{`溫度：${currentLocation?.weatherElement[3].elementValue}`}</p>
-          <p className={classes.content}> {currentLocation?.locationName}</p>
-          <p className={classes.content}>{`降雨機率：${currentLocation}`}</p>
-          <Select
-            className={classes.locationSelect}
-            onChange={(e) => onChange(e)}
-            value={currentLocation?.locationName}
-          >
-            {weatherData?.records.location.map((item, index) => (
-              <Option key={index} value={item.locationName}>
-                {item.locationName}
-              </Option>
-            ))}
-          </Select> */}
+        </div>
+        <div className={classes.reload}>
+          <img src={reloadIcon} alt="" />
         </div>
       </Col>
     </Row>
