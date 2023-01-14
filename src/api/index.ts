@@ -19,7 +19,7 @@ const weatherAxios = Axios.create({ baseURL: apiURL });
 export const getWeatherData = async (): Promise<Response<IWeatherData>> => {
   try {
     const { data } = await weatherAxios.request<IWeatherData>({
-      url: "/O-A0001-001?Authorization=CWB-1698A141-1DE8-4E52-8DEA-49C0C11B3611&format=JSON",
+      url: "/O-A0001-001?Authorization=CWB-1698A141-1DE8-4E52-8DEA-49C0C11B3611",
       method: "get",
     });
     return { data };
@@ -29,4 +29,15 @@ export const getWeatherData = async (): Promise<Response<IWeatherData>> => {
   }
 };
 
-// ("https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-1698A141-1DE8-4E52-8DEA-49C0C11B3611&format=JSON&locationName=");
+export const getWeatherStateData = async () => {
+  try {
+    const { data } = await weatherAxios.request({
+      url: "/F-C0032-001?Authorization=CWB-1698A141-1DE8-4E52-8DEA-49C0C11B3611",
+      method: "get",
+    });
+    return { data };
+  } catch (error: any) {
+    console.log(error);
+    return { error, data: undefined };
+  }
+};

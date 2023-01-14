@@ -8,8 +8,8 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { getWeatherData } from "../../api";
-import { IWeatherData } from "../../interface";
+import { getWeatherData, getWeatherStateData } from "../../api";
+import { IWeatherStateData, ICurrentWeatherData } from "../../interface";
 
 export interface Response<T> {
   error?: AxiosError<{
@@ -22,22 +22,31 @@ interface Props {
   children: ReactNode;
 }
 
-export const weatherContext = createContext<IWeatherData | undefined>(
+interface IWeatherContext {
+  weatherData: ICurrentWeatherData[] | undefined;
+  weatherStateData: IWeatherStateData[] | undefined;
+}
+
+export const weatherContext = createContext<IWeatherContext | undefined>(
   undefined
 );
 
 const WeatherProvider = ({ children }: Props) => {
-  const [weatherData, setWeatherData] = useState<IWeatherData>();
+  const [weatherData, setWeatherData] = useState<
+    ICurrentWeatherData[] | undefined
+  >(undefined);
+  const [weatherStateData, setWeatherStateData] = useState<
+    IWeatherStateData[] | undefined
+  >(undefined);
 
   const GetWeatherData = async () => {
     try {
       const { data } = await getWeatherData();
       if (data) {
-        console.log(data.records);
         const { records } = data;
-        console.log(records);
+        const { location } = records;
 
-        setWeatherData(data);
+        setWeatherData(location);
       }
       return data;
     } catch (error: any) {
@@ -46,15 +55,39 @@ const WeatherProvider = ({ children }: Props) => {
     }
   };
 
+  const GetWeatherStateData = async () => {
+    try {
+      const { data } = await getWeatherStateData();
+      const { records } = data;
+      const { location } = records;
+      setWeatherStateData(location);
+
+      console.log("GetWeatherStateData", data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     GetWeatherData();
+    GetWeatherStateData();
   }, []);
 
   return (
-    <weatherContext.Provider value={weatherData}>
+    <weatherContext.Provider
+      value={{ weatherData: weatherData, weatherStateData: weatherStateData }}
+    >
       {children}
     </weatherContext.Provider>
   );
 };
 
 export default WeatherProvider;
+
+export const useWeatherCotext = () => {
+  const weatherContextData = useContext(weatherContext);
+  if (weatherContextData === undefined) {
+    throw new Error("weatherContextData is undefined!");
+  }
+  return weatherContextData;
+};

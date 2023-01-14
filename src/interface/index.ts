@@ -61,3 +61,149 @@ export interface ICurrentWeatherData {
     { elementName: "D_TNT"; elementValue: string }
   ];
 }
+
+export interface IWeatherStateData {
+  locationName: string;
+  weatherElement: [
+    {
+      elementName: "Wx";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: "晴時多雲";
+            parameterValue: "2";
+          };
+        }
+        // ...
+      ];
+    },
+    {
+      elementName: "PoP";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: string;
+            parameterUnit: "百分比";
+          };
+        }
+        // ...
+      ];
+    },
+    {
+      elementName: "MinT";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: "23";
+            parameterUnit: "C";
+          };
+        }
+        // ...
+      ];
+    },
+    {
+      elementName: "CI";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: "舒適";
+          };
+        }
+        // ...
+      ];
+    },
+    {
+      elementName: "MaxT";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: string;
+            parameterUnit: "C";
+          };
+        }
+        //..
+      ];
+    }
+  ];
+}
+
+export interface ICurrentWeatherStateData {
+  locationName: string;
+  weatherElement: [
+    {
+      elementName: "Wx";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: string;
+            parameterValue: string;
+          };
+        }
+      ];
+    },
+    {
+      elementName: "PoP";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: string;
+            parameterUnit: "百分比";
+          };
+        }
+      ];
+    },
+    {
+      elementName: "MinT";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: string;
+            parameterUnit: "C";
+          };
+        }
+      ];
+    },
+    {
+      elementName: "CI";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: string;
+          };
+        }
+      ];
+    },
+    {
+      elementName: "MaxT";
+      time: [
+        {
+          startTime: string;
+          endTime: string;
+          parameter: {
+            parameterName: string;
+            parameterUnit: "C";
+          };
+        }
+        //..
+      ];
+    }
+  ];
+}
