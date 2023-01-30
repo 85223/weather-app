@@ -12,19 +12,17 @@ const WeatherApp = () => {
   const { Option } = Select;
   const { weatherData, weatherStateData } = useWeatherCotext();
 
-  const [currentLocation, setCurrentLocation] = useState<
-    ICurrentWeatherData | undefined
-  >(undefined);
+  const [currentLocation, setCurrentLocation] = useState<ICurrentWeatherData | undefined>(
+    undefined
+  );
   const [currentLocationStateData, setCurrentLocationStateData] = useState<
     ICurrentWeatherStateData | undefined
   >(undefined);
-  // console.log("weatherData", weatherData);
+  const [location, setLocation] = useState<string>("桃園");
 
   useEffect(() => {
     if (weatherData !== undefined) {
-      const currntLocationData = weatherData.filter(
-        (item) => item.locationName === "桃園"
-      )[0];
+      const currntLocationData = weatherData.filter((item) => item.locationName === "桃園")[0];
       console.log("currntLocationData", currntLocationData);
       setCurrentLocation(currntLocationData);
     }
@@ -33,32 +31,72 @@ const WeatherApp = () => {
   useEffect(() => {
     if (weatherStateData) {
       console.log(weatherStateData);
-
       const currentLocationStateData = weatherStateData.filter(
         (item) => item.locationName === "桃園市"
       )[0];
-      console.log(currentLocationStateData.weatherElement);
+      console.log(currentLocationStateData);
 
       setCurrentLocationStateData(currentLocationStateData);
     }
   }, [weatherStateData]);
 
+  useEffect(() => {
+    if (weatherStateData) {
+      const currentLocationStateData = weatherStateData.filter((item) =>
+        item.locationName.includes(location)
+      )[0];
+      console.log(currentLocationStateData);
+      setCurrentLocationStateData(currentLocationStateData);
+    }
+    if (weatherData) {
+      const currntLocationData = weatherData.filter((item) =>
+        item.parameter[0].parameterValue.includes(location)
+      );
+      setCurrentLocation(currntLocationData[0]);
+    }
+  }, [location]);
+
   return (
     <Row justify="center" align="middle">
       <Col span={20} sm={15} md={10} className={classes.container}>
-        <h1 className={classes.title}>{currentLocation?.locationName}</h1>
+        <h1 className={classes.title}>
+          {/* {currentLocation?.locationName} */}
+          <select
+            className={classes.select}
+            onChange={(e) => {
+              setLocation(e.target.value);
+            }}
+          >
+            <option>桃園市</option>
+            <option>基隆市</option>
+            <option>新北市</option>
+            <option>臺北市</option>
+            <option>新竹縣</option>
+            <option>新竹市</option>
+            <option>苗栗縣</option>
+            <option>臺中市</option>
+            <option>彰化縣</option>
+            <option>南投縣</option>
+            <option>雲林縣</option>
+            <option>嘉義縣</option>
+            <option>臺南市</option>
+            <option>高雄市</option>
+            <option>屏東縣</option>
+            <option>臺東縣</option>
+            <option>花蓮縣</option>
+            <option>宜蘭縣</option>
+            <option>澎湖縣</option>
+            <option>金門縣</option>
+            <option>連江縣</option>
+          </select>
+        </h1>
         <h3 className={classes.description}>
-          {
-            currentLocationStateData?.weatherElement[0].time[0].parameter
-              .parameterName
-          }
+          {currentLocationStateData?.weatherElement[0].time[0].parameter.parameterName}
         </h3>
         <div className={classes.weatherCard}>
           <div className={classes.currentWeather}>
             <div className={classes.temp}>
-              {`${Math.round(
-                Number(currentLocation?.weatherElement[3].elementValue)
-              )}`}
+              {`${Math.round(Number(currentLocation?.weatherElement[3].elementValue))}`}
               <div className={classes.celsius}>°C</div>
             </div>
             <div className={classes.weatherImg}>
@@ -79,10 +117,7 @@ const WeatherApp = () => {
             </div>
             <div className={classes.content}>
               {`${Math.round(
-                Number(
-                  currentLocationStateData?.weatherElement[1].time[0].parameter
-                    .parameterName
-                )
+                Number(currentLocationStateData?.weatherElement[1].time[0].parameter.parameterName)
               )} %`}
             </div>
           </div>
@@ -97,7 +132,7 @@ const WeatherApp = () => {
               }).format(new Date(currentLocation?.time.obsTime))}
             {/* {currentLocation?.time.obsTime} */}
           </div>
-          <img src={reloadIcon} alt="" />
+          {/* <img src={reloadIcon} alt="" /> */}
         </div>
       </Col>
     </Row>
