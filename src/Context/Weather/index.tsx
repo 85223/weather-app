@@ -1,13 +1,5 @@
-import axios, { AxiosError } from "axios";
-import React, {
-  Context,
-  createContext,
-  FC,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { AxiosError } from "axios";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { getWeatherData, getWeatherStateData } from "../../api";
 import { IWeatherStateData, ICurrentWeatherData } from "../../interface";
 
@@ -27,17 +19,13 @@ interface IWeatherContext {
   weatherStateData: IWeatherStateData[] | undefined;
 }
 
-export const weatherContext = createContext<IWeatherContext | undefined>(
-  undefined
-);
+export const weatherContext = createContext<IWeatherContext | undefined>(undefined);
 
 const WeatherProvider = ({ children }: Props) => {
-  const [weatherData, setWeatherData] = useState<
-    ICurrentWeatherData[] | undefined
-  >(undefined);
-  const [weatherStateData, setWeatherStateData] = useState<
-    IWeatherStateData[] | undefined
-  >(undefined);
+  const [weatherData, setWeatherData] = useState<ICurrentWeatherData[] | undefined>(undefined);
+  const [weatherStateData, setWeatherStateData] = useState<IWeatherStateData[] | undefined>(
+    undefined
+  );
 
   const GetWeatherData = async () => {
     try {

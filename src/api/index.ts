@@ -19,7 +19,7 @@ const weatherAxios = Axios.create({ baseURL: apiURL });
 export const getWeatherData = async (): Promise<Response<IWeatherData>> => {
   try {
     const { data } = await weatherAxios.request<IWeatherData>({
-      url: "/O-A0001-001?Authorization=CWB-1698A141-1DE8-4E52-8DEA-49C0C11B3611",
+      url: "/O-A0003-001?Authorization=CWB-1698A141-1DE8-4E52-8DEA-49C0C11B3611",
       method: "get",
     });
     return { data };
