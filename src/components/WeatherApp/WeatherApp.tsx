@@ -122,7 +122,7 @@ const WeatherApp = () => {
               </div>
             </div>
           </div>
-          <div className={classes.reload}>
+          {/* <div className={classes.reload}>
             <div>
               最後觀測時間：
               {currentLocation &&
@@ -131,7 +131,7 @@ const WeatherApp = () => {
                   minute: "numeric",
                 }).format(new Date(currentLocation?.time.obsTime))}
             </div>
-          </div>
+          </div> */}
         </Col>
       ) : (
         <Loading />
