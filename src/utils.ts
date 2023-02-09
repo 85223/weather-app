@@ -16,8 +16,8 @@ export const availableLocations = [
   },
   {
     cityName: "雲林縣",
-    locationName: "雲林",
-    sunriseCityName: "屏東",
+    locationName: "古坑(花卉中心)",
+    sunriseCityName: "雲林",
   },
   {
     cityName: "臺東縣",
@@ -61,7 +61,7 @@ export const availableLocations = [
   },
   {
     cityName: "臺南市",
-    locationName: "南區中心",
+    locationName: "臺南",
     sunriseCityName: "臺南",
   },
   {
@@ -96,7 +96,7 @@ export const availableLocations = [
   },
   {
     cityName: "新北市",
-    locationName: "板橋",
+    locationName: "新北",
     sunriseCityName: "新北市",
   },
 ];

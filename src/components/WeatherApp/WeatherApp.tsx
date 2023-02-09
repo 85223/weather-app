@@ -8,6 +8,7 @@ import rainIcon from "../../images/rain.svg";
 import windIcon from "../../images/wind.svg";
 import { availableLocations } from "../../utils";
 import Loading from "../Loading";
+import WeatherIcon from "../WeatherIcon";
 
 interface ILocation {
   cityName: string;
@@ -44,6 +45,7 @@ const WeatherApp = () => {
         (item) => item.locationName === location.cityName
       )[0];
       setCurrentLocationState(_currentLocation);
+      console.log(_currentLocation);
     }
   };
   const weatherDataHandler = () => {
@@ -51,6 +53,7 @@ const WeatherApp = () => {
       const currentLocation = weatherData.filter(
         (item) => item.locationName === location.locationName
       )[0];
+      console.log(currentLocation);
       setCurrentLocation(currentLocation);
     }
   };
@@ -78,7 +81,7 @@ const WeatherApp = () => {
             >
               {availableLocations.map((location, index) => (
                 <option key={index}>{location.cityName}</option>
-              ))}
+              ))}{" "}
             </select>
           </h1>
           <h3 className={classes.description}>
@@ -90,10 +93,16 @@ const WeatherApp = () => {
                 {`${Math.round(Number(currentLocation?.weatherElement[3].elementValue))}`}
                 <div className={classes.celsius}>°C</div>
               </div>
-              <div className={classes.weatherImg}>
+              {/* <div className={classes.weatherImg}>
                 <img src={dayIcon} alt="" />
-              </div>
-            </div>
+              </div> */}
+              <WeatherIcon
+                weatherCode={
+                  currentLocationState?.weatherElement[0].time[0].parameter.parameterValue
+                }
+                moment="night"
+              />
+            </div>{" "}
             <div className={classes.airFlow}>
               <div className={classes.airFlowIcon}>
                 <img src={windIcon} alt="" />
@@ -104,7 +113,7 @@ const WeatherApp = () => {
             </div>
             <div className={classes.rain}>
               <div className={classes.rainIcon}>
-                <img src={rainIcon} alt="" />
+                <img src={rainIcon} alt="" />{" "}
               </div>
               <div className={classes.content}>
                 {`${Math.round(
